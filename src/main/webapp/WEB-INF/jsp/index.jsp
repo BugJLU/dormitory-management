@@ -15,7 +15,7 @@
 
 <a href="/student/">Student</a>
 <a href="/guest/">Guest</a>
-<a>Administrator</a>
+<a href="/admin/">Administrator</a>
 
 </body>
 </html>

@@ -1,17 +1,11 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: mac
-  Date: 2019/3/18
-  Time: 10:53 AM
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Student Register</title>
+    <title>Admin Register</title>
 </head>
 <body>
-<form action="/student/registerAct" method="post">
+<form action="/admin/registerAct" method="post">
     <table>
         <tr>
             <td>
@@ -31,14 +25,6 @@
         </tr>
         <tr>
             <td>
-                <label for="studentId">student ID</label>
-            </td>
-            <td>
-                <input id="studentId" name="studentId" type="text">
-            </td>
-        </tr>
-        <tr>
-            <td>
                 <label for="password">password</label>
             </td>
             <td>
@@ -50,7 +36,7 @@
                 <input value="register" type="submit">
             </td>
             <td>
-                <a href="/student/login">login</a>
+                <a href="/admin/login">login</a>
             </td>
         </tr>
     </table>
