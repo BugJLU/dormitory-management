@@ -42,6 +42,13 @@ public class AdminController {
         return "admin/login";
     }
 
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("admin");
+        request.getSession().removeAttribute("user");
+        return "index";
+    }
+
     @RequestMapping("/loginAct")
     public String loginAct(HttpServletRequest request, UserVo userVo) {
         String jump = ControllerUtil.checkLoginState(request);

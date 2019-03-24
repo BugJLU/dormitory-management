@@ -11,6 +11,7 @@
 <a href="/admin/studentInfo">StudentInfo</a>
 <a href="/admin/checkInfo">CheckInfo</a>
 <a href="/admin/roomInfo">RoomInfo</a>
+<a href="/admin/logout">LogOut</a>
 
 </body>
 </html>
