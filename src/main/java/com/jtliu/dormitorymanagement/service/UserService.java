@@ -38,6 +38,7 @@ public class UserService {
             return null;
         }
         User res = userRepository.findByPhoneAndPassword(phone, password);
+        if (res == null) return null;
         if (res.getRole() == 0) return res;
         return null;
     }

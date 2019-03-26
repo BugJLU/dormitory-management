@@ -19,7 +19,7 @@
     %>
     <p>No student found.</p>
     <%
-    } else {
+            } else {
     %>
     <tr>
         <th>name</th>

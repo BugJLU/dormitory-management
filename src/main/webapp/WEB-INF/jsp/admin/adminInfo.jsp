@@ -41,6 +41,10 @@
         <td>
             <input value="update" type="submit">
         </td>
+        <td>
+            <input type="text" id="id" name="id"
+                   value="<%= u.getId()%>" hidden>
+        </td>
     </tr>
     </form>
     <%

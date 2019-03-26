@@ -55,7 +55,7 @@ public class AdminController {
     @RequestMapping("/loginAct")
     public String loginAct(HttpServletRequest request, UserVo userVo) {
         String jump = ControllerUtil.checkLoginState(request);
-        if (jump != "redirect:/") return jump;
+        if (jump != null) return jump;
         User user = userService.adminLoginCheck(
                 userVo.getPhone(),
                 userVo.getPassword()
@@ -82,24 +82,36 @@ public class AdminController {
     public String update(HttpServletRequest request, UserVo admin) {
         request.setAttribute("action", "update admin info");
         User ad = (User)request.getSession().getAttribute("admin");
-        if (ad == null) return "admin/login";
-        ad = adminService.updateUserInfo(admin, ad.getPhone());
-        if (ad == null) return "fail";
-        request.getSession().setAttribute("admin", ad);
+        if (ad == null) return "/";
+        try {
+            User base = userService.searchById(admin.getId());
+            admin.setPassword(base.getPassword());
+            base = adminService.updateUserInfo(admin, base.getId());
+            if (base == null) return "fail";
+        } catch (Exception e) {
+            request.setAttribute("reason", e.getMessage());
+            return "fail";
+        }
+//        request.getSession().setAttribute("admin", ad);
         return "success";
     }
 
     @RequestMapping("/registerAct")
     public String registerAct(HttpServletRequest request, UserVo admin) {
-        String jump = ControllerUtil.checkLoginState(request);
-        if (jump != null) return jump;
+//        String jump = ControllerUtil.checkLoginState(request);
+//        if (jump != null) return jump;
 
-        request.setAttribute("action", "admin register");
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole() != 0) {
+            return "redirect:/";
+        }
+
+        request.setAttribute("action", "admin add");
 
         try {
             User adminInfo = adminService.saveUserInfo(admin);
             if (adminInfo == null)
-                throw new Exception("Cannot register user.");
+                throw new Exception("Cannot add user.");
         } catch (Exception e) {
             request.setAttribute("reason", e.getMessage());
             return "fail";
@@ -118,16 +130,30 @@ public class AdminController {
     }
 
     @RequestMapping("/adminAct")
-    public String adminAct(HttpServletRequest request){
+    public String adminAct(HttpServletRequest request, UserVo admin){
+//        request.setAttribute("action", "update admin info");
+//        User ad = adminService.searchByPhone(request.getParameter("phone"));
+//        if (ad == null) return "fail";
+////        UserVo admin = new UserVo();
+////        admin.setName(request.getParameter("name"));
+////        admin.setPhone(request.getParameter("phone"));
+////        admin.setPassword(request.getParameter("password"));
+//        ad = adminService.updateUserInfo(admin, ad.getPhone());
+//        if (ad == null) return "fail";
+//        return "success";
         request.setAttribute("action", "update admin info");
-        User ad = adminService.searchByPhone(request.getParameter("phone"));
-        if (ad == null) return "fail";
-        UserVo admin = new UserVo();
-        admin.setName(request.getParameter("name"));
-        admin.setPhone(request.getParameter("phone"));
-        admin.setPassword(request.getParameter("password"));
-        ad = adminService.updateUserInfo(admin, ad.getPhone());
-        if (ad == null) return "fail";
+        User ad = (User)request.getSession().getAttribute("admin");
+        if (ad == null) return "/";
+        try {
+            User base = userService.searchById(admin.getId());
+            admin.setPassword(base.getPassword());
+            base = adminService.updateUserInfo(admin, base.getId());
+            if (base == null) return "fail";
+        } catch (Exception e) {
+            request.setAttribute("reason", e.getMessage());
+            return "fail";
+        }
+//        request.getSession().setAttribute("admin", ad);
         return "success";
     }
 
@@ -146,7 +172,7 @@ public class AdminController {
         if (ad == null) return ControllerUtil.checkLoginState(request);
         Map<String,List<StudentInfo>> rooms = adminService.searchRoomInfo();
         List<Room> roomList = adminService.searchAllRoom();
-        if(roomList == null) return null;
+//        if(roomList == null) return "";
         request.setAttribute("roomList",roomList);
         request.setAttribute("rooms",rooms);
         return "admin/roomInfo";

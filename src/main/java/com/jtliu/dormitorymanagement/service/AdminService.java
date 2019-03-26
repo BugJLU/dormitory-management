@@ -13,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -48,8 +45,8 @@ public class AdminService {
         return userRepository.findAllByRole(r);
     }
 
-    public User updateUserInfo(UserVo uservo,String phone) {
-        User user  = userRepository.findByPhone(phone);
+    public User updateUserInfo(UserVo uservo, Integer id) {
+        User user  = userRepository.findById(id).orElse(null);
         if(user == null) return null;
         user.setName(uservo.getName());
         user.setPhone(uservo.getPhone());
@@ -102,11 +99,12 @@ public class AdminService {
         List<Room> roomList = roomRepository.findAll();
         if(roomList == null) return null;
         List<StudentInfo> studentInfos = studentRepository.findAll();
-        Map<String,List<StudentInfo>> roomMap = new HashMap<>();
+        Map<String,List<StudentInfo>> roomMap = new TreeMap<>();
         for(Room r : roomList){
             roomMap.put(r.getRoomNum(),new ArrayList<>());
         }
         for(StudentInfo ss : studentInfos){
+            if (ss.getRoom() == null) continue;
             roomMap.get(ss.getRoom().getRoomNum()).add(ss);
         }
         return roomMap;

@@ -14,9 +14,11 @@ public class ControllerUtil {
                 case 1:
                     return "redirect:/student/index";
                 default:
-                    return "redirect:/";
+//                    return "redirect:/";
+                    return null;
             }
         }
-        return "redirect:/";
+//        return "redirect:/";
+        return null;
     }
 }

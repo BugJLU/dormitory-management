@@ -14,6 +14,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 
 @Controller
 @RequestMapping("/student")
@@ -26,8 +27,13 @@ public class StudentController {
     @RequestMapping({"/", "/index"})
     public String index(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        if (user != null && user.getRole().equals(1)) {
-            return "student/index";
+        if (user != null) {
+            if (user.getRole().equals(1)) {
+                return "student/index";
+            }
+            if (user.getRole().equals(0)) {
+                return "redirect:admin/index";
+            }
         }
         return "student/login";
     }
@@ -70,8 +76,13 @@ public class StudentController {
         StudentInfo ss = (StudentInfo) request.getSession().getAttribute("student");
         if (ss == null) return "student/login";
 
-        ss = studentService.updateInfo(student, ss.getId());
-        if (ss == null) return "fail";
+        try {
+            ss = studentService.updateInfo(student, ss.getId());
+            if (ss == null) return "fail";
+        } catch (Exception e) {
+            request.setAttribute("reason", e.getMessage());
+            return "fail";
+        }
 
         request.getSession().setAttribute("user", ss.getBase());
         request.getSession().setAttribute("student", ss);
