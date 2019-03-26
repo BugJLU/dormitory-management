@@ -27,9 +27,6 @@
             <td>
                 <input type="submit" value="login" id="loginbtn">
             </td>
-            <td>
-                <a href="/admin/register">register</a>
-            </td>
         </tr>
     </form>
 </table>

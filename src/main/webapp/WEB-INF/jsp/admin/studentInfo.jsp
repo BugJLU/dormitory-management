@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.jtliu.dormitorymanagement.model.StudentInfo" %>
 <%@ page import="com.jtliu.dormitorymanagement.model.User" %>
+<%@ page import="com.jtliu.dormitorymanagement.model.Room" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -23,7 +24,6 @@
     <tr>
         <th>name</th>
         <th>phone</th>
-        <th>password</th>
         <th>studentID</th>
         <th>room</th>
     </tr>
@@ -32,6 +32,7 @@
                 users) {
     %>
     <form action="/admin/studentAct">
+        <input type="text" id ="id" name="id" value="<%=u.getId()%>" style="visibility:hidden" />
     <tr>
         <td>
             <input type="text" id="name" name="name"
@@ -39,26 +40,48 @@
         </td>
         <td>
             <input type="text" id="phone" name="phone"
-                   value="<%=u.getBase().getPhone()%>" readonly>
+                   value="<%=u.getBase().getPhone()%>">
         </td>
         <td>
-            <input type="text" id="password" name="password"
-                   value="<%=u.getBase().getPassword()%>">
-        </td>
-        <td>
-            <input type="text" id="studentID" name="studentID"
+            <input type="text" id="studentId" name="studentId"
                    value="<%=u.getStudentId()%>">
         </td>
         <td>
-            <input type="text" id="room" name="room"
+            <select name="room" id=room>
                 <%
-                if( u.getRoom() != null){
-                %>
-                   value="<%=u.getRoom().getRoomNum()%>"
-                <%}else{%>
-                    value="NoRoom"
+                    List<Room> rl = (List<Room>)request.getAttribute("rooms");
+                    if(rl != null){
+                        if(u.getRoom() != null){
+                        for (Room r : rl) {
+                        %>
+                <option value="<%=r.getRoomNum()%>"
+                    <%
+                        if(u.getRoom().getRoomNum()==r.getRoomNum()){
+                    %>
+                        selected="selected"
+                        <%}%>
+                ><%=r.getRoomNum()%></option>
+                <%
+                        }
+                }else{%>
+                <option value="NoRoom"selected="selected">NoRoom</option>
+                <%for (Room r : rl) {%>
+                <option value="<%=r.getRoomNum()%>"><%=r.getRoomNum()%></option>
                 <%}%>
-            >
+                <%
+                        }
+                    }
+                %>
+            </select>
+            <%--<input type="text" id="room" name="room"--%>
+                <%--<%--%>
+                <%--if( u.getRoom() != null){--%>
+                <%--%>--%>
+                   <%--value="<%=u.getRoom().getRoomNum()%>"--%>
+                <%--<%}else{%>--%>
+                    <%--value="NoRoom"--%>
+                <%--<%}%>--%>
+            <%-->--%>
         </td>
         <td>
             <input value="update" type="submit">

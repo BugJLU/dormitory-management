@@ -3,9 +3,11 @@ package com.jtliu.dormitorymanagement.controller;
 import com.jtliu.dormitorymanagement.controller.vo.StudentVo;
 import com.jtliu.dormitorymanagement.controller.vo.UserVo;
 import com.jtliu.dormitorymanagement.model.GuestRecord;
+import com.jtliu.dormitorymanagement.model.Room;
 import com.jtliu.dormitorymanagement.model.StudentInfo;
 import com.jtliu.dormitorymanagement.model.User;
 import com.jtliu.dormitorymanagement.service.AdminService;
+import com.jtliu.dormitorymanagement.service.StudentService;
 import com.jtliu.dormitorymanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ public class AdminController {
 
     private final UserService userService;
     private final AdminService adminService;
+    private final StudentService studentService;
 
     @RequestMapping({"/", "/index"})
     public String index(HttpServletRequest request) {
@@ -52,7 +55,7 @@ public class AdminController {
     @RequestMapping("/loginAct")
     public String loginAct(HttpServletRequest request, UserVo userVo) {
         String jump = ControllerUtil.checkLoginState(request);
-        if (jump != null) return jump;
+        if (jump != "redirect:/") return jump;
         User user = userService.adminLoginCheck(
                 userVo.getPhone(),
                 userVo.getPassword()
@@ -108,7 +111,7 @@ public class AdminController {
     @RequestMapping("/adminInfo")
     public String adminInfo(HttpServletRequest request){
         User ad = (User)request.getSession().getAttribute("admin");
-        if (ad == null) return "admin/login";
+        if (ad == null) return ControllerUtil.checkLoginState(request);
         List<User> users = adminService.searchByRole(0);
         request.setAttribute("users", users);
         return "admin/adminInfo";
@@ -131,7 +134,7 @@ public class AdminController {
     @RequestMapping("/checkInfo")
     public String checkInfo(HttpServletRequest request){
         User ad = (User)request.getSession().getAttribute("admin");
-        if (ad == null) return "admin/login";
+        if (ad == null) return ControllerUtil.checkLoginState(request);
         List<GuestRecord> guestRecords = adminService.searchAllGuestRecord();
         request.setAttribute("records",guestRecords);
         return "admin/checkInfo";
@@ -140,33 +143,78 @@ public class AdminController {
     @RequestMapping("/roomInfo")
     public String roomInfo(HttpServletRequest request){
         User ad = (User)request.getSession().getAttribute("admin");
-        if (ad == null) return "admin/login";
+        if (ad == null) return ControllerUtil.checkLoginState(request);
         Map<String,List<StudentInfo>> rooms = adminService.searchRoomInfo();
+        List<Room> roomList = adminService.searchAllRoom();
+        if(roomList == null) return null;
+        request.setAttribute("roomList",roomList);
         request.setAttribute("rooms",rooms);
         return "admin/roomInfo";
+    }
+
+    @RequestMapping("/addRoom")
+    public String addRoom(HttpServletRequest request){
+        User ad = (User)request.getSession().getAttribute("admin");
+        if (ad == null) return ControllerUtil.checkLoginState(request);
+        return "admin/addRoom";
+    }
+
+    @RequestMapping("/addRoomAct")
+    public String addRoomAct(HttpServletRequest request){
+        String roomNum = (String)request.getParameter("roomNum");
+        Room room = new Room();
+        try{
+        room = adminService.saveRoom(roomNum);
+        }catch(RuntimeException r){
+            request.setAttribute("reason","Duplicate RoomNum");
+            request.setAttribute("action","Add Room");
+            return "fail";
+        }
+        return "success";
+    }
+
+    @RequestMapping("/updateRoom")
+    public String updateRoom(HttpServletRequest request){
+        User ad = (User)request.getSession().getAttribute("admin");
+        if (ad == null) return ControllerUtil.checkLoginState(request);
+        String roomNum = request.getParameter("roomNum");
+        request.setAttribute("roomNum",roomNum);
+        List<StudentInfo> studentList = adminService.searchStudentByRoom(roomNum);
+        request.setAttribute("studentList",studentList);
+        return "admin/updateRoom";
+    }
+
+    @RequestMapping("/updateRoomAct")
+    public String updateRoomAct(HttpServletRequest request){
+        String roomNum = (String)request.getParameter("roomNum");
+        List<StudentInfo> studentList = adminService.searchStudentByRoom(roomNum);
+        return "success";
     }
 
     @RequestMapping("/studentInfo")
     public String studentInfo(HttpServletRequest request){
         User ad = (User)request.getSession().getAttribute("admin");
-        if (ad == null) return "admin/login";
+        if (ad == null) return ControllerUtil.checkLoginState(request);
         List<StudentInfo> students = adminService.searchAllStudent();
         request.setAttribute("users",students);
+        //
+        request.setAttribute("rooms",adminService.searchAllRoom());
+        //
         return "admin/studentInfo";
     }
 
     @RequestMapping("/studentAct")
-    public String studentAct(HttpServletRequest request){
+    public String studentAct(HttpServletRequest request,StudentVo studentVo){
         request.setAttribute("action", "update student info");
-        User  base = adminService.searchByPhone(request.getParameter("phone"));
+        StudentInfo student = studentService.searchById(studentVo.getId());
+        User  base = adminService.searchById(student.getBase().getId());
         if (base == null) return "fail";
-        base.setName(request.getParameter("name"));
-        base.setPassword(request.getParameter("password"));
-        StudentInfo student = new StudentInfo();
+        base.setPhone(studentVo.getPhone());
+        base.setName(studentVo.getName());
         if (student == null) return "fail";
         student.setBase(base);
-        student.setStudentId(request.getParameter("studentID"));
-        student.setRoom(adminService.searchRoom(request.getParameter("room")));
+        student.setStudentId(studentVo.getStudentId());
+        student.setRoom(adminService.searchRoom(studentVo.getRoom()));
         student = adminService.updateStudentInfo(student);
         if (student == null) return "fail";
         return "success";

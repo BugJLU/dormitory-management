@@ -23,7 +23,6 @@
     <tr>
         <th>name</th>
         <th>phone</th>
-        <th>password</th>
     </tr>
     <%
         for (User u :
@@ -37,11 +36,7 @@
         </td>
         <td>
             <input type="text" id="phone" name="phone"
-                   value="<%=u.getPhone()%>" readonly>
-        </td>
-        <td>
-            <input type="text" id="password" name="password"
-                   value="<%=u.getPassword()%>">
+                   value="<%=u.getPhone()%>">
         </td>
         <td>
             <input value="update" type="submit">
@@ -54,7 +49,12 @@
         }
     %>
 </table>
+<td>
+    <a href="/admin/register">Add Admin</a>
+</td>
+<td>
 <a href="index">index</a>
+</td>
 </body>
 </html>
 

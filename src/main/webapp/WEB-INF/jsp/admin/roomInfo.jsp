@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="com.jtliu.dormitorymanagement.model.StudentInfo" %>
+<%@ page import="com.jtliu.dormitorymanagement.model.Room" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,6 +15,7 @@
 <table>
     <%
         Map<String,List<StudentInfo>> roomMap = ( Map<String,List<StudentInfo>>)request.getAttribute("rooms");
+        List<Room> rl = (List<Room>)request.getAttribute("roomList");
         if (roomMap != null) {
             if (roomMap.size() == 0) {
     %>
@@ -23,30 +25,45 @@
     %>
     <tr>
         <th>RoomNum</th>
-        <th>Student</th>
+        <th>StudentNumbers</th>
     </tr>
     <%
-        for (String key : roomMap.keySet()) {
+        for (Room r : rl) {
     %>
+    <form action="/admin/updateRoom">
     <tr>
+        <input type="text" id ="roomNum" name="roomNum" value="<%=r.getRoomNum()%>" style="visibility:hidden" />
         <td>
-            <a><%=key%></a>
+            <a><%=r.getRoomNum()%></a>
         </td>
         <td>
     <%
-            for(StudentInfo s : roomMap.get(key)){
+        if(roomMap.get(r.getRoomNum()) != null){
     %>
-            <a><%=s.getBase().getName()%>&emsp;</a>
-            <%}%>
+            <a>
+                <%=roomMap.get(r.getRoomNum()).size()%>
+            </a>
+            <%
+                }
+            %>
+        </td>
+        <td>
+            <input value="manage" type="submit">
         </td>
     </tr>
+    </form>
     <%
                 }
             }
         }
     %>
 </table>
-<a href="index">index</a>
+<td>
+    <a href="addRoom">Add Room</a>
+</td>
+<td>
+    <a href="index">index</a>
+</td>
 </body>
 </html>
 

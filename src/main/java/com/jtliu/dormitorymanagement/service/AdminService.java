@@ -78,13 +78,14 @@ public class AdminService {
         return students;
     }
 
-    public Room searchRoom(String num){
-        return roomRepository.findByRoomNum(num);
-    }
 
     public StudentInfo updateStudentInfo(StudentInfo student){
         User user = student.getBase();
+        try{
         user = userService.saveUser(user);
+        }catch(RuntimeException r){
+            return null;
+        }
         StudentInfo ss = studentRepository.findByBase_Id(student.getBase().getId());
         ss.setStudentId(student.getStudentId());
         ss.setRoom(student.getRoom());
@@ -92,15 +93,41 @@ public class AdminService {
         return ss;
     }
 
+    public Room searchRoom(String num){
+        if(num == "NoRoom") return null;
+        return roomRepository.findByRoomNum(num);
+    }
+
     public Map<String,List<StudentInfo>> searchRoomInfo(){
+        List<Room> roomList = roomRepository.findAll();
+        if(roomList == null) return null;
         List<StudentInfo> studentInfos = studentRepository.findAll();
         Map<String,List<StudentInfo>> roomMap = new HashMap<>();
-        for(StudentInfo ss : studentInfos){
-            roomMap.put(ss.getRoom().getRoomNum(),new ArrayList<>());
+        for(Room r : roomList){
+            roomMap.put(r.getRoomNum(),new ArrayList<>());
         }
         for(StudentInfo ss : studentInfos){
             roomMap.get(ss.getRoom().getRoomNum()).add(ss);
         }
         return roomMap;
+    }
+
+    public List<Room> searchAllRoom(){
+        return roomRepository.findAll();
+    }
+
+    public Room saveRoom(String roomNum){
+        if (roomNum == null) return null;
+        Room room = new Room();
+        room.setRoomNum(roomNum);
+        room = roomRepository.save(room);
+        return room;
+    }
+
+    public List<StudentInfo> searchStudentByRoom(String roomNum){
+        if (roomNum == null) return null;
+        Map<String,List<StudentInfo>> roomMap = searchRoomInfo();
+        List<StudentInfo> studentList = roomMap.get(roomNum);
+        return studentList;
     }
 }

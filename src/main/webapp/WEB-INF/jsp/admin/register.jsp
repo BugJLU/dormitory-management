@@ -33,11 +33,11 @@
         </tr>
         <tr>
             <td>
-                <input value="register" type="submit">
+                <input value="Add" type="submit">
             </td>
-            <td>
-                <a href="/admin/login">login</a>
-            </td>
+            <%--<td>--%>
+                <%--<a href="/admin/login">login</a>--%>
+            <%--</td>--%>
         </tr>
     </table>
 </form>
