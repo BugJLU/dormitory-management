@@ -29,7 +29,8 @@ public class GuestService {
         guestRecord.setReason(guest.getReason());
         User host = userRepository.findById(guest.getHost()).orElse(null);
         if (host == null) return null;
-        guestRecord.setHost(host);
+        guestRecord.setHostName(host.getName());
+        guestRecord.setHostPhone(host.getPhone());
         guestRecord.setCheckin(new Date());
         return guestRepository.save(guestRecord);
 //        return new GuestRecordVo(res);

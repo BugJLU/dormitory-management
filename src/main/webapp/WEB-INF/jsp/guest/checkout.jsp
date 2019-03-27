@@ -46,7 +46,7 @@
             <td><%= r.getName() %></td>
             <td><%= r.getPhone() %></td>
             <td><%= r.getReason() %></td>
-            <td><%= r.getHost().getName() %></td>
+            <td><%= r.getHostName() %></td>
             <td><%= r.getCheckin() %></td>
             <td><a href="/guest/checkoutAct?id=<%=r.getId()%>">Checkout</a></td>
         </tr>

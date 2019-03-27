@@ -90,6 +90,29 @@ public class AdminService {
         return ss;
     }
 
+    public Boolean removeStudent(Integer sid){
+        if(!studentRepository.existsById(sid)) return false;
+        StudentInfo student = studentRepository.findById(sid).orElse(null);
+        Integer uid = student.getBase().getId();
+        studentRepository.deleteById(sid);
+        userRepository.deleteById(uid);
+        return true;
+    }
+
+    public Boolean removeAdmin(Integer aid){
+        if(!userRepository.existsById(aid)) return false;
+        userRepository.deleteById(aid);
+        return true;
+    }
+
+    public Boolean removeRoomFromStudent(Integer sid){
+        if(!studentRepository.existsById(sid)) return false;
+        StudentInfo student = studentRepository.findById(sid).orElse(null);
+        student.setRoom(null);
+        studentRepository.save(student);
+        return true;
+    }
+
     public Room searchRoom(String num){
         if(num == "NoRoom") return null;
         return roomRepository.findByRoomNum(num);
@@ -103,8 +126,12 @@ public class AdminService {
         for(Room r : roomList){
             roomMap.put(r.getRoomNum(),new ArrayList<>());
         }
+        roomMap.put("NoRoom",new ArrayList<>());
         for(StudentInfo ss : studentInfos){
-            if (ss.getRoom() == null) continue;
+            if (ss.getRoom() == null){
+                roomMap.get("NoRoom").add(ss);
+                continue;
+            }
             roomMap.get(ss.getRoom().getRoomNum()).add(ss);
         }
         return roomMap;
@@ -127,5 +154,21 @@ public class AdminService {
         Map<String,List<StudentInfo>> roomMap = searchRoomInfo();
         List<StudentInfo> studentList = roomMap.get(roomNum);
         return studentList;
+    }
+
+    public List<StudentInfo> searchStudentNoRoom(){
+        Map<String,List<StudentInfo>> roomMap = searchRoomInfo();
+        List<StudentInfo> studentList = roomMap.get("NoRoom");
+        return studentList;
+    }
+
+    public Boolean addRoomToStudent(Integer sid,String roomNum){
+        if(!studentRepository.existsById(sid)) return false;
+        StudentInfo student = studentRepository.findById(sid).orElse(null);
+        Room r = roomRepository.findByRoomNum(roomNum);
+        if(r == null) return false;
+        student.setRoom(r);
+        studentRepository.save(student);
+        return true;
     }
 }

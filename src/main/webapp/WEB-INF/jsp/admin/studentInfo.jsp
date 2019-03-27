@@ -73,18 +73,19 @@
                     }
                 %>
             </select>
-            <%--<input type="text" id="room" name="room"--%>
-                <%--<%--%>
-                <%--if( u.getRoom() != null){--%>
-                <%--%>--%>
-                   <%--value="<%=u.getRoom().getRoomNum()%>"--%>
-                <%--<%}else{%>--%>
-                    <%--value="NoRoom"--%>
-                <%--<%}%>--%>
-            <%-->--%>
+        </td>
+        <td>
+            <%if(u.getRoom() != null){%>
+            <a href="/admin/updateRoom?roomNum=<%=u.getRoom().getRoomNum()%>">>></a>
+            <%}else{%>
+            <a>>></a>
+            <%}%>
         </td>
         <td>
             <input value="update" type="submit">
+        </td>
+        <td>
+            <a href="/admin/removeStudent?sid=<%=u.getId()%>">Remove</a>
         </td>
     </tr>
     </form>

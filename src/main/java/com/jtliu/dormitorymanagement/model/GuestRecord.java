@@ -13,8 +13,10 @@ public class GuestRecord {
     Integer id;
     String name;
     String phone;
-    @ManyToOne
-    User host;
+//    @ManyToOne
+//    User host;
+    String hostName;
+    String hostPhone;
     String reason;
     Date checkin;
     Date checkout;

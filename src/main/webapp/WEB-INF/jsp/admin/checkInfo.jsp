@@ -23,7 +23,8 @@
         <th>name</th>
         <th>phone</th>
         <th>reason</th>
-        <th>visiting</th>
+        <th>host name</th>
+        <th>host phone</th>
         <th>checkin time</th>
         <th>checkout time</th>
     </tr>
@@ -42,7 +43,10 @@
             <a><%=r.getReason()%></a>
         </td>
         <td>
-            <a><%=r.getHost().getName()%></a>
+            <a><%=r.getHostName()%></a>
+        </td>
+        <td>
+            <a><%=r.getHostPhone()%></a>
         </td>
         <td>
             <a><%=r.getCheckin()%></a>

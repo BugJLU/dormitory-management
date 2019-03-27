@@ -25,6 +25,11 @@
        <td>
            <a><%=ss.getBase().getName()%></a>
        </td>
+            <td>
+            <td>
+                <a href="/admin/removeRoomFromStudent?sid=<%=ss.getId()%>">Remove</a>
+            </td>
+            </td>
         </tl>
     </table>
     <%
@@ -35,14 +40,16 @@
     <%}%>
 </form>
 <table>
-<form action="/admin/updateRoomAct">
+<form action="/admin/addRoomToStudent">
+    <input type="text" id ="roomNum" name="roomNum" value="<%=request.getAttribute("roomNum")%>" style="visibility:hidden" />
     <tl>
         <td>
-            <select name="studentName" id=studentName>
+            <select name="sid" id=sid>
                 <option value="NoStudent"selected="selected">Select Student</option>
                 <%
-                    if(studentList != null && studentList.size() != 0){
-                        for (StudentInfo s : studentList) {%>
+                    List<StudentInfo> studentNoRoom = (List<StudentInfo>)request.getAttribute("studentNoRoom");
+                    if(studentNoRoom != null && studentNoRoom.size() != 0){
+                        for (StudentInfo s : studentNoRoom) {%>
                 <option value="<%=s.getId()%>"><%=s.getBase().getName()%></option>
                 <%
                         }
@@ -50,14 +57,6 @@
                 %>
             </select>
         </td>
-        <td>
-            <input value="Remove" type="submit">
-        </td>
-    </tl>
-</form>
-<form action="/admin/updateRoomAct">
-    <tl>
-
         <td>
             <input value="Add" type="submit">
         </td>
