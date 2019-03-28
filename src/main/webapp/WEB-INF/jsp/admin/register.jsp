@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Admin Register</title>
+    <title>Add Admin</title>
 </head>
 <body>
 <form action="/admin/registerAct" method="post">

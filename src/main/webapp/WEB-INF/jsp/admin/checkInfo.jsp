@@ -6,7 +6,7 @@
     <title>Admin Manage</title>
 </head>
 <body>
-<h1>AdminList：</h1>
+<h1>CheckInfo List：</h1>
 <form action="/admin/checkInfo">
 </form>
 <table>
