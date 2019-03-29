@@ -6,12 +6,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Admin Manage</title>
+    <title>Room Info</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
+
+<a href="index">&lt;&lt; index</a>
+
 <h1>RoomList：</h1>
-<form action="/admin/roomInfo">
-</form>
+
 <table>
     <%
         Map<String,List<StudentInfo>> roomMap = ( Map<String,List<StudentInfo>>)request.getAttribute("rooms");
@@ -58,12 +62,9 @@
         }
     %>
 </table>
-<td>
-    <a href="addRoom">Add Room</a>
-</td>
-<td>
-    <a href="index">index</a>
-</td>
+
+<a href="addRoom">Add Room</a>
+
 </body>
 </html>
 

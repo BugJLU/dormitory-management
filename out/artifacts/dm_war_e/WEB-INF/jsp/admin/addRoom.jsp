@@ -7,10 +7,17 @@
 <form action="/admin/addRoom">
 </form>
 <head>
-    <title>Admin Manage</title>
+    <title>Add Room</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
-<h1>AddRoom：</h1>
+
+<a href="/admin/roomInfo">&lt;&lt; room info</a>
+
+<h1 class="l-title">AddRoom：</h1>
+
+<div class="l-center">
 <form action="/admin/addRoomAct">
     <table>
         <tr>
@@ -26,9 +33,8 @@
         </td>
     </table>
 </form>
-<td>
-    <a href="index">index</a>
-</td>
+</div>
+
 </body>
 </html>
 

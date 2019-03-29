@@ -11,7 +11,12 @@
 <head>
     <title>Search</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
+
+<a href="index">&lt;&lt; guest index</a>
+
     <h1>Who would you like to visit?</h1>
     <form id="searchForm" action="/guest/searchNchoose">
         <label for="name">name</label>
@@ -19,7 +24,8 @@
         <%--<button id="search" onclick="document.getElementById('searchForm')">search</button>--%>
         <input type="submit" value="search">
     </form>
-    <table>
+    <%--<div class="l-table">--%>
+    <table style="margin-top: 50px;">
         <%
             List<User> users = (List<User>) request.getAttribute("users");
             if (users != null) {
@@ -52,6 +58,7 @@
             }
         %>
     </table>
+    <%--</div>--%>
 </body>
 <script>
     // function go() {

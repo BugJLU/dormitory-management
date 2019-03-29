@@ -5,12 +5,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Student List:</title>
+    <title>Student Info</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
+
+<a href="index">&lt;&lt; index</a>
+
 <h1>Student List：</h1>
-<form action="/admin/studentInfo">
-</form>
 <table>
     <%
         List<StudentInfo> users = (List<StudentInfo>) request.getAttribute("users");
@@ -95,7 +98,6 @@
         }
     %>
 </table>
-<a href="index">index</a>
 </body>
 </html>
 

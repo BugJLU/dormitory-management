@@ -11,8 +11,14 @@
 <head>
     <title>Checkout</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
-    <h1>Search for your checkin record:</h1>
+
+<a href="index">&lt;&lt; guest index</a>
+
+    <h1 class="l-title">Search for your checkin record:</h1>
+
     <form id="searchForm" action="/guest/checkout">
         <label for="phone">phone</label>
         <input id="phone" name="phone" type="text">
@@ -20,7 +26,7 @@
         <input type="submit" value="search">
     </form>
 
-    <table>
+    <table >
     <% List<GuestRecord> records = (List<GuestRecord>) request.getAttribute("records");
         if (records != null){
             if (records.size() == 0) {

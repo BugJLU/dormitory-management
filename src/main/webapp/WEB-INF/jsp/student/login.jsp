@@ -10,10 +10,16 @@
 <head>
     <title>Student Login</title>
 </head>
-<body>
+<link href="/css/layout.css" rel="stylesheet">
 
-<table>
-    <form action="/student/loginAct">
+<body>
+<a href="/index">&lt;&lt; index</a>
+<h1 class="l-title">Student Login</h1>
+
+
+<div class="l-center">
+<table style="margin-top: 200px">
+    <form  action="/student/loginAct">
         <tr>
             <td>
                 <label for="phone">phone</label>
@@ -40,5 +46,6 @@
         </tr>
     </form>
 </table>
+</div>
 </body>
 </html>

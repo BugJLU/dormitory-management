@@ -10,12 +10,17 @@
 <head>
     <title>Student Index</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
 <%
     StudentInfo studentInfo = (StudentInfo) request.getSession().getAttribute("student");
 %>
 <h1>Hello <%=studentInfo.getBase().getName()%>!</h1>
+
 <a href="/logout">logout</a>
+
+<div class="l-center">
 <form action="/student/update" method="post">
     <table>
         <tr>
@@ -63,5 +68,6 @@
         </tr>
     </table>
 </form>
+</div>
 </body>
 </html>

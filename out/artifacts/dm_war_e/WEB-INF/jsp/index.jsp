@@ -10,12 +10,15 @@
 <head>
     <title>Dormitory Management System</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
 <body>
-<h1>Dormitory Management System</h1>
+<h1 class="l-title">Dormitory Management System</h1>
 
-<a href="/student/">Student</a>
-<a href="/guest/">Guest</a>
-<a href="/admin/">Administrator</a>
+<div class="l-center">
+    <a class="l-choices" href="/student/">Student</a>
+    <a class="l-choices" href="/guest/">Guest</a>
+    <a class="l-choices" href="/admin/">Administrator</a>
+</div>
 
 </body>
 </html>

@@ -3,8 +3,13 @@
 <head>
     <title>Admin Login</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
 
+<a href="/index">&lt;&lt; index</a>
+<h1 class="l-title">Admin Login</h1>
+<div class="l-center">
 <table>
     <form action="/admin/loginAct">
         <tr>
@@ -30,5 +35,6 @@
         </tr>
     </form>
 </table>
+</div>
 </body>
 </html>

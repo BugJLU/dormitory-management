@@ -10,9 +10,17 @@
 <head>
     <title>Student Register</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
-<form action="/student/registerAct" method="post">
-    <table>
+
+<a href="/index">&lt;&lt; index</a>
+
+<h1 class="l-title">Student Register</h1>
+
+<div class="l-center">
+<form action="/student/registerAct" method="post" >
+    <table style="margin-top: 200px">
         <tr>
             <td>
                 <label for="name">name</label>
@@ -55,5 +63,6 @@
         </tr>
     </table>
 </form>
+</div>
 </body>
 </html>

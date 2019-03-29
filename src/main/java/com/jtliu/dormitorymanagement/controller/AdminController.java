@@ -78,23 +78,23 @@ public class AdminController {
         return "admin/register";
     }
 
-    @RequestMapping("/update")
-    public String update(HttpServletRequest request, UserVo admin) {
-        request.setAttribute("action", "update admin info");
-        User ad = (User)request.getSession().getAttribute("admin");
-        if (ad == null) return "/";
-        try {
-            User base = userService.searchById(admin.getId());
-            admin.setPassword(base.getPassword());
-            base = adminService.updateUserInfo(admin, base.getId());
-            if (base == null) return "fail";
-        } catch (Exception e) {
-            request.setAttribute("reason", e.getMessage());
-            return "fail";
-        }
-//        request.getSession().setAttribute("admin", ad);
-        return "success";
-    }
+//    @RequestMapping("/update")
+//    public String update(HttpServletRequest request, UserVo admin) {
+//        request.setAttribute("action", "update admin info");
+//        User ad = (User)request.getSession().getAttribute("admin");
+//        if (ad == null) return "/";
+//        try {
+//            User base = userService.searchById(admin.getId());
+//            admin.setPassword(base.getPassword());
+//            base = adminService.updateUserInfo(admin, base.getId());
+//            if (base == null) return "fail";
+//        } catch (Exception e) {
+//            request.setAttribute("reason", e.getMessage());
+//            return "fail";
+//        }
+////        request.getSession().setAttribute("admin", ad);
+//        return "success";
+//    }
 
     @RequestMapping("/registerAct")
     public String registerAct(HttpServletRequest request, UserVo admin) {
@@ -117,7 +117,7 @@ public class AdminController {
             return "fail";
         }
 
-        return "success";
+        return "redirect:/admin/adminInfo";
     }
 
     @RequestMapping("/adminInfo")
@@ -128,7 +128,7 @@ public class AdminController {
             if(s == null)
                 return "redirect:/";
             else
-                return "s";
+                return s;
         }
         List<User> users = adminService.searchByRole(0);
         request.setAttribute("users", users);
@@ -137,19 +137,9 @@ public class AdminController {
 
     @RequestMapping("/adminAct")
     public String adminAct(HttpServletRequest request, UserVo admin){
-//        request.setAttribute("action", "update admin info");
-//        User ad = adminService.searchByPhone(request.getParameter("phone"));
-//        if (ad == null) return "fail";
-////        UserVo admin = new UserVo();
-////        admin.setName(request.getParameter("name"));
-////        admin.setPhone(request.getParameter("phone"));
-////        admin.setPassword(request.getParameter("password"));
-//        ad = adminService.updateUserInfo(admin, ad.getPhone());
-//        if (ad == null) return "fail";
-//        return "success";
         request.setAttribute("action", "update admin info");
         User ad = (User)request.getSession().getAttribute("admin");
-        if (ad == null) return "/";
+        if (ad == null) return "redirect:/";
         try {
             User base = userService.searchById(admin.getId());
             admin.setPassword(base.getPassword());
@@ -159,15 +149,17 @@ public class AdminController {
             request.setAttribute("reason", e.getMessage());
             return "fail";
         }
-//        request.getSession().setAttribute("admin", ad);
-        return "success";
+        return "redirect:/admin/adminInfo";
     }
 
     @RequestMapping("/removeAdmin")
     public String removeAdmin(HttpServletRequest request){
+        User ad = (User)request.getSession().getAttribute("admin");
+        if (ad == null) return "redirect:/";
+
         Integer aid = Integer.parseInt(request.getParameter("aid"));
         if(!adminService.removeAdmin(aid)) return "fail";
-        return "success";
+        return "redirect:/admin/adminInfo";
     }
 
     @RequestMapping("/checkInfo")
@@ -178,7 +170,7 @@ public class AdminController {
             if(s == null)
                 return "redirect:/";
             else
-                return "s";
+                return s;
         }
         List<GuestRecord> guestRecords = adminService.searchAllGuestRecord();
         request.setAttribute("records",guestRecords);
@@ -193,7 +185,7 @@ public class AdminController {
             if(s == null)
                 return "redirect:/";
             else
-                return "s";
+                return s;
         }
         Map<String,List<StudentInfo>> rooms = adminService.searchRoomInfo();
         List<Room> roomList = adminService.searchAllRoom();
@@ -211,7 +203,7 @@ public class AdminController {
             if(s == null)
                 return "redirect:/";
             else
-                return "s";
+                return s;
         }
         return "admin/addRoom";
     }
@@ -227,7 +219,7 @@ public class AdminController {
             request.setAttribute("action","Add Room");
             return "fail";
         }
-        return "success";
+        return "redirect:/admin/roomInfo";
     }
 
     @RequestMapping("/updateRoom")
@@ -238,7 +230,7 @@ public class AdminController {
             if(s == null)
             return "redirect:/";
         else
-            return "s";
+            return s;
         }
         String roomNum = request.getParameter("roomNum");
         request.setAttribute("roomNum",roomNum);
@@ -256,7 +248,7 @@ public class AdminController {
         String roomNum = (String)request.getParameter("roomNum");
         Integer sid = Integer.parseInt(request.getParameter("sid"));
         if(!adminService.addRoomToStudent(sid,roomNum)) return "fail";
-        return "success";
+        return "redirect:/admin/updateRoom?roomNum="+roomNum;
     }
 
     @RequestMapping("/studentInfo")
@@ -267,7 +259,7 @@ public class AdminController {
             if(s == null)
                 return "redirect:/";
             else
-                return "s";
+                return s;
         }
         List<StudentInfo> students = adminService.searchAllStudent();
         request.setAttribute("users",students);
@@ -279,6 +271,10 @@ public class AdminController {
 
     @RequestMapping("/studentAct")
     public String studentAct(HttpServletRequest request,StudentVo studentVo){
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole() != 0) {
+            return "redirect:/";
+        }
         request.setAttribute("action", "update student info");
         StudentInfo student = studentService.searchById(studentVo.getId());
         User  base = adminService.searchById(student.getBase().getId());
@@ -291,20 +287,29 @@ public class AdminController {
         student.setRoom(adminService.searchRoom(studentVo.getRoom()));
         student = adminService.updateStudentInfo(student);
         if (student == null) return "fail";
-        return "success";
+        return "redirect:/admin/studentInfo";
     }
 
     @RequestMapping("/removeStudent")
     public String removeStudent(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole() != 0) {
+            return "redirect:/";
+        }
         Integer sid = Integer.parseInt(request.getParameter("sid"));
         if(!adminService.removeStudent(sid)) return "fail";
-        return "success";
+        return "redirect:/admin/studentInfo";
     }
 
     @RequestMapping("/removeRoomFromStudent")
     public String removeRoomFromStudent(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole() != 0) {
+            return "redirect:/";
+        }
         Integer sid = Integer.parseInt(request.getParameter("sid"));
+        String rnum = studentService.searchById(sid).getRoom().getRoomNum();
         if(!adminService.removeRoomFromStudent(sid)) return "fail";
-        return "success";
+        return "redirect:/admin/updateRoom?roomNum="+rnum;
     }
 }

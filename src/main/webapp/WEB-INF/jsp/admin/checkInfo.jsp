@@ -3,12 +3,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Admin Manage</title>
+    <title>Check Info</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
-<h1>CheckInfo List：</h1>
-<form action="/admin/checkInfo">
-</form>
+
+<a href="index">&lt;&lt; index</a>
+
+<h1 class="l-title">CheckInfo List：</h1>
+
 <table>
     <%
         List<GuestRecord> guestRecords = (List<GuestRecord>) request.getAttribute("records");
@@ -71,7 +75,6 @@
         }
     %>
 </table>
-    <a href="index">index</a>
 </body>
 <script>
 </script>

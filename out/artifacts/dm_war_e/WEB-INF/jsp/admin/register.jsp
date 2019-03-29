@@ -4,8 +4,16 @@
 <head>
     <title>Add Admin</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
+<a href="/admin/adminInfo">&lt;&lt; admin manage</a>
+
+<h1>Add admin:</h1>
+
+<div class="l-center">
 <form action="/admin/registerAct" method="post">
+
     <table>
         <tr>
             <td>
@@ -41,5 +49,6 @@
         </tr>
     </table>
 </form>
+</div>
 </body>
 </html>

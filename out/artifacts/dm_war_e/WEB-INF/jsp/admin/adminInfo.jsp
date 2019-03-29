@@ -6,10 +6,15 @@
 <head>
     <title>Admin Manage</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
-<h1>AdminList：</h1>
-<form action="/admin/adminInfo">
-</form>
+
+<a href="index">&lt;&lt; index</a>
+
+<h1 class="l-title">AdminList：</h1>
+
+<div class="l-center">
 <table>
     <%
         List<User> users = (List<User>) request.getAttribute("users");
@@ -56,12 +61,12 @@
         }
     %>
 </table>
-<td>
+
+
     <a href="/admin/register">Add Admin</a>
-</td>
-<td>
-<a href="index">index</a>
-</td>
+
+</div>
+
 </body>
 </html>
 

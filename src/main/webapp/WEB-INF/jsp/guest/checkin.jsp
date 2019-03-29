@@ -10,9 +10,14 @@
 <head>
     <title>Checkin</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
+
+<a href="index">&lt;&lt; guest index</a>
+    <div class="l-center">
     <form action="/guest/checkinAct" method="post">
-        <table>
+        <table >
             <tr>
                 <td><label for="name">name</label></td>
                 <td><input id="name" name="name" type="text"></td>
@@ -34,8 +39,13 @@
             </tr>
             <input id="host" name="host" type="text" hidden value="${host.id}">
             <%--<a href="">search and choose</a>--%>
-            <input type="submit" value="checkin">
+            <tr>
+                <td>
+                    <input type="submit" value="checkin">
+                </td>
+            </tr>
         </table>
     </form>
+    </div>
 </body>
 </html>

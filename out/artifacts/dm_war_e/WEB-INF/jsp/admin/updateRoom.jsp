@@ -9,9 +9,13 @@
 <head>
     <title>UpdateRoom</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
+
+<a href="/admin/roomInfo">&lt;&lt; room info</a>
+
 <h1>UpdateRoom：<%=request.getAttribute("roomNum")%></h1>
-<form>
 
     <%
         List<StudentInfo> studentList = (List<StudentInfo>)request.getAttribute("studentList");
@@ -41,7 +45,7 @@
     %>
     <h2>No student in this room.</h2>
     <%}%>
-</form>
+
 <table>
 <form action="/admin/addRoomToStudent">
     <input type="text" id ="roomNum" name="roomNum" value="<%=request.getAttribute("roomNum")%>" style="visibility:hidden" />
@@ -76,9 +80,6 @@
     </tl>
 </form>
 </table>
-<td>
-    <a href="index">index</a>
-</td>
 </body>
 </html>
 

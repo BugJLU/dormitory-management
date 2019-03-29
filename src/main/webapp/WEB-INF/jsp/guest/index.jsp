@@ -10,9 +10,16 @@
 <head>
     <title>Guest</title>
 </head>
+<link href="/css/layout.css" rel="stylesheet">
+
 <body>
-<h1>Hello Guest!</h1>
-<a href="/guest/checkin">Guest Checkin</a>
-<a href="/guest/checkout">Guest Checkout</a>
+
+<a href="/index">&lt;&lt; index</a>
+
+<h1 class="title">Hello Guest!</h1>
+<div class="l-center">
+<a class="l-choices" href="/guest/checkin">Guest Checkin</a>
+<a class="l-choices" href="/guest/checkout">Guest Checkout</a>
+</div>
 </body>
 </html>
