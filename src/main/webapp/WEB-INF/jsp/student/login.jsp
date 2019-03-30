@@ -18,7 +18,7 @@
 
 
 <div class="l-center">
-<table style="margin-top: 200px">
+<table style="margin-top: 100px">
     <form  action="/student/loginAct">
         <tr>
             <td>

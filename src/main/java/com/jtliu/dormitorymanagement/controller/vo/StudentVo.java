@@ -7,6 +7,7 @@ public class StudentVo {
     Integer id;
     String name;
     String phone;
+    Integer gender;
     String password;
     String studentId;
     String room;

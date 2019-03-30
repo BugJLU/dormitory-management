@@ -14,7 +14,7 @@
 <div class="l-center">
 <form action="/admin/registerAct" method="post">
 
-    <table>
+    <table style="margin-top: 100px">
         <tr>
             <td>
                 <label for="name">name</label>

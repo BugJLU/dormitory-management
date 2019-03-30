@@ -62,6 +62,8 @@ public class StudentController {
         request.removeAttribute("admin");
         request.getSession().setAttribute("user", user);
         request.getSession().setAttribute("student", studentInfo);
+//        if (studentInfo.getGender() == 0) System.out.println("000");
+//        else System.out.println("111");
         return "redirect:/student/index";
     }
 

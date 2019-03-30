@@ -35,6 +35,7 @@ public class StudentService {
         user = userService.saveUser(user);
         studentInfo.setBase(user);
         studentInfo.setStudentId(student.getStudentId());
+        studentInfo.setGender(student.getGender());
         return studentRepository.save(studentInfo);
     }
 
@@ -47,6 +48,7 @@ public class StudentService {
 //        user = userService.saveUser(user);
         studentInfo.setBase(user);
         studentInfo.setStudentId(student.getStudentId());
+//        studentInfo
         return studentRepository.save((studentInfo));
     }
 }

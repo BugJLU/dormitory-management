@@ -10,7 +10,7 @@
 <a href="/index">&lt;&lt; index</a>
 <h1 class="l-title">Admin Login</h1>
 <div class="l-center">
-<table>
+<table style="margin-top: 100px">
     <form action="/admin/loginAct">
         <tr>
             <td>

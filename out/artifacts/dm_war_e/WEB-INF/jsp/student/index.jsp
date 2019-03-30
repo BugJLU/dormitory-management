@@ -15,6 +15,7 @@
 <body>
 <%
     StudentInfo studentInfo = (StudentInfo) request.getSession().getAttribute("student");
+//    if (studentInfo == null) return;
 %>
 <h1>Hello <%=studentInfo.getBase().getName()%>!</h1>
 
@@ -30,6 +31,16 @@
             <td>
                 <input type="text" id="name" name="name"
                        value="<%=studentInfo.getBase().getName()%>">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                gender
+            </td>
+            <td>
+                <% if (studentInfo.getGender() != null) { %>
+                <%=studentInfo.getGender() == 0 ? "男" : "女"%>
+                <% } %>
             </td>
         </tr>
         <tr>

@@ -20,7 +20,7 @@
 
 <div class="l-center">
 <form action="/student/registerAct" method="post" >
-    <table style="margin-top: 200px">
+    <table style="margin-top: 100px">
         <tr>
             <td>
                 <label for="name">name</label>
@@ -35,6 +35,25 @@
             </td>
             <td>
                 <input id="phone" name="phone" type="text">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                gender
+            </td>
+            <td>
+                <%--<div>--%>
+                    <label>
+                    <input type="radio" value="0" id="gender0" name="gender" checked>
+                    male
+                    </label>
+                <%--</div>--%>
+                <%--<div>--%>
+                    <label>
+                    <input type="radio" value="1" id="gender1" name="gender">
+                    female
+                    </label>
+                <%--</div>--%>
             </td>
         </tr>
         <tr>
