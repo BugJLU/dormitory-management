@@ -31,6 +31,7 @@
         <th>name</th>
         <th>phone</th>
         <th>studentID</th>
+        <th>gender</th>
         <th>room</th>
     </tr>
     <%
@@ -51,6 +52,9 @@
         <td>
             <input type="text" id="studentId" name="studentId"
                    value="<%=u.getStudentId()%>">
+        </td>
+        <td>
+            <%=u.getGender() == 0 ? "male" : "female"%>
         </td>
         <td>
             <select name="room" id=room>

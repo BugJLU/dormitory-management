@@ -2,6 +2,9 @@
 <%@ page import="com.jtliu.dormitorymanagement.model.StudentInfo" %>
 <%@ page import="com.jtliu.dormitorymanagement.model.User" %>
 <%@ page import="com.jtliu.dormitorymanagement.model.Room" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.LinkedHashSet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -28,6 +31,7 @@
         <th>name</th>
         <th>phone</th>
         <th>studentID</th>
+        <th>gender</th>
         <th>room</th>
     </tr>
     <%
@@ -50,9 +54,15 @@
                    value="<%=u.getStudentId()%>">
         </td>
         <td>
+            <%=u.getGender() == 0 ? "male" : "female"%>
+        </td>
+        <td>
             <select name="room" id=room>
                 <%
-                    List<Room> rl = (List<Room>)request.getAttribute("rooms");
+                    Map<Integer,List<Room>> genderRoomMap = (Map<Integer,List<Room>>)request.getAttribute("genderRoomMap");
+                    List<Room> rl = genderRoomMap.get(u.getGender());
+                    rl.addAll(genderRoomMap.get(10));
+                    rl = new ArrayList<>(new LinkedHashSet<>(rl));
                     if(rl != null){
                         if(u.getRoom() != null){
                         for (Room r : rl) {

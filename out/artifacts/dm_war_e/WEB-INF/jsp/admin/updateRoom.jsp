@@ -15,7 +15,7 @@
 
 <a href="/admin/roomInfo">&lt;&lt; room info</a>
 
-<h1>UpdateRoom：<%=request.getAttribute("roomNum")%></h1>
+<h1>Update<%=request.getAttribute("genderString")%>Room：<%=request.getAttribute("roomNum")%></h1>
 
     <%
         List<StudentInfo> studentList = (List<StudentInfo>)request.getAttribute("studentList");

@@ -18,7 +18,7 @@
 
 <table>
     <%
-        Map<String,List<StudentInfo>> roomMap = ( Map<String,List<StudentInfo>>)request.getAttribute("rooms");
+        Map<String,List<StudentInfo>> roomMap = ( Map<String,List<StudentInfo>>)request.getAttribute("roomInfo");
         List<Room> rl = (List<Room>)request.getAttribute("roomList");
         if (roomMap != null) {
             if (roomMap.size() == 0) {
