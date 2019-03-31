@@ -17,6 +17,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -187,11 +188,11 @@ public class AdminController {
             else
                 return s;
         }
-        Map<String,List<StudentInfo>> rooms = adminService.searchRoomInfo();
+        Map<String,List<StudentInfo>> roomInfo = adminService.searchRoomInfo();
         List<Room> roomList = adminService.searchAllRoom();
 //        if(roomList == null) return "";
         request.setAttribute("roomList",roomList);
-        request.setAttribute("rooms",rooms);
+        request.setAttribute("roomInfo",roomInfo);
         return "admin/roomInfo";
     }
 
@@ -235,7 +236,18 @@ public class AdminController {
         String roomNum = request.getParameter("roomNum");
         request.setAttribute("roomNum",roomNum);
         List<StudentInfo> studentList = adminService.searchStudentByRoom(roomNum);
+        List<StudentInfo> studentNoRoomTemp = adminService.searchStudentNoRoom();
         List<StudentInfo> studentNoRoom = adminService.searchStudentNoRoom();
+        if(studentList.size() != 0)  {
+            for(StudentInfo student : studentNoRoomTemp){
+                if(student.getGender() != adminService.searchGenderOfRoom(roomNum)) studentNoRoom.remove(student);
+            }
+        }
+        Integer i = adminService.searchGenderOfRoom(roomNum);
+        String genderString = "";
+        if(i == 0) genderString = "Male";
+        if(i == 1) genderString = "Female";
+        request.setAttribute("genderString",genderString);
         request.setAttribute("studentList",studentList);
         request.setAttribute("studentNoRoom",studentNoRoom);
         return "admin/updateRoom";
@@ -264,7 +276,7 @@ public class AdminController {
         List<StudentInfo> students = adminService.searchAllStudent();
         request.setAttribute("users",students);
         //
-        request.setAttribute("rooms",adminService.searchAllRoom());
+        request.setAttribute("genderRoomMap",adminService.searchGenderRoomMap());
         //
         return "admin/studentInfo";
     }

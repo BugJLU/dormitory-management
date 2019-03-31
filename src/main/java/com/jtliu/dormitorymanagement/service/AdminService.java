@@ -141,6 +141,28 @@ public class AdminService {
         return roomRepository.findAll();
     }
 
+    public Integer searchGenderOfRoom(String roomNum){
+        Map<String,List<StudentInfo>> rm = searchRoomInfo();
+        List<StudentInfo> sl = rm.get(roomNum);
+        if(sl.size() != 0) return sl.get(0).getGender();
+        return 10;
+    }
+
+    public Map<Integer,List<Room>> searchGenderRoomMap(){
+        Map<Integer,List<Room>> genderRoomMap = new TreeMap<>();
+        List<Room> rl = searchAllRoom();
+        genderRoomMap.put(0,new ArrayList<>());
+        genderRoomMap.put(1,new ArrayList<>());
+        genderRoomMap.put(10,new ArrayList<>());
+        for(Room r : rl){
+            if(searchGenderOfRoom(r.getRoomNum()) == 0) genderRoomMap.get(0).add(r);
+            if(searchGenderOfRoom(r.getRoomNum()) == 1) genderRoomMap.get(1).add(r);
+            if(searchGenderOfRoom(r.getRoomNum()) == 10) genderRoomMap.get(10).add(r);
+        }
+        return genderRoomMap;
+    }
+
+
     public Room saveRoom(String roomNum){
         if (roomNum == null) return null;
         Room room = new Room();
