@@ -8,11 +8,27 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class StudentService {
     private final StudentRepository studentRepository;
     private final UserService userService;
+
+    public List<StudentInfo> searchByChoice(Integer choice, String value) {
+        value = "%"+value+"%";
+        switch (choice) {
+            case 0:
+                return studentRepository.findByBase_NameLike(value);
+            case 1:
+                return studentRepository.findByBase_PhoneLike(value);
+            case 2:
+                return studentRepository.findByStudentIdLike(value);
+            default:
+                return null;
+        }
+    }
 
     public StudentInfo searchByUser(User user) {
         if (user == null || user.getId() == null) return null;

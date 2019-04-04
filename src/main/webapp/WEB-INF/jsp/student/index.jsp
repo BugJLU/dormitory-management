@@ -12,7 +12,7 @@
 </head>
 <link href="/css/layout.css" rel="stylesheet">
 
-<body>
+<body background="/img/background.jpg">
 <%
     StudentInfo studentInfo = (StudentInfo) request.getSession().getAttribute("student");
 //    if (studentInfo == null) return;

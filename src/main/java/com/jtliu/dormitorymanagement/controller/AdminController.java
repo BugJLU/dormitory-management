@@ -2,11 +2,9 @@ package com.jtliu.dormitorymanagement.controller;
 
 import com.jtliu.dormitorymanagement.controller.vo.StudentVo;
 import com.jtliu.dormitorymanagement.controller.vo.UserVo;
-import com.jtliu.dormitorymanagement.model.GuestRecord;
-import com.jtliu.dormitorymanagement.model.Room;
-import com.jtliu.dormitorymanagement.model.StudentInfo;
-import com.jtliu.dormitorymanagement.model.User;
+import com.jtliu.dormitorymanagement.model.*;
 import com.jtliu.dormitorymanagement.service.AdminService;
+import com.jtliu.dormitorymanagement.service.NoticeService;
 import com.jtliu.dormitorymanagement.service.StudentService;
 import com.jtliu.dormitorymanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +27,7 @@ public class AdminController {
     private final UserService userService;
     private final AdminService adminService;
     private final StudentService studentService;
+    private final NoticeService noticeService;
 
     @RequestMapping({"/", "/index"})
     public String index(HttpServletRequest request) {
@@ -50,7 +49,7 @@ public class AdminController {
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute("admin");
         request.getSession().removeAttribute("user");
-        return "index";
+        return "redirect:/index";
     }
 
     @RequestMapping("/loginAct")
@@ -78,24 +77,6 @@ public class AdminController {
     public String register(HttpServletRequest request) {
         return "admin/register";
     }
-
-//    @RequestMapping("/update")
-//    public String update(HttpServletRequest request, UserVo admin) {
-//        request.setAttribute("action", "update admin info");
-//        User ad = (User)request.getSession().getAttribute("admin");
-//        if (ad == null) return "/";
-//        try {
-//            User base = userService.searchById(admin.getId());
-//            admin.setPassword(base.getPassword());
-//            base = adminService.updateUserInfo(admin, base.getId());
-//            if (base == null) return "fail";
-//        } catch (Exception e) {
-//            request.setAttribute("reason", e.getMessage());
-//            return "fail";
-//        }
-////        request.getSession().setAttribute("admin", ad);
-//        return "success";
-//    }
 
     @RequestMapping("/registerAct")
     public String registerAct(HttpServletRequest request, UserVo admin) {
@@ -302,6 +283,21 @@ public class AdminController {
         return "redirect:/admin/studentInfo";
     }
 
+    @RequestMapping("/studentSearch")
+    public String studentSearch(HttpServletRequest request,
+                                Integer choice,
+                                String value) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole() != 0) {
+            return "redirect:/";
+        }
+        request.setAttribute("genderRoomMap",adminService.searchGenderRoomMap());
+
+        List<StudentInfo> students = studentService.searchByChoice(choice, value);
+        request.setAttribute("users", students);
+        return "admin/studentInfo";
+    }
+
     @RequestMapping("/removeStudent")
     public String removeStudent(HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("user");
@@ -323,5 +319,39 @@ public class AdminController {
         String rnum = studentService.searchById(sid).getRoom().getRoomNum();
         if(!adminService.removeRoomFromStudent(sid)) return "fail";
         return "redirect:/admin/updateRoom?roomNum="+rnum;
+    }
+
+    @RequestMapping("/noticeInfo")
+    public String noticeInfo(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole() != 0) {
+            return "redirect:/";
+        }
+        List<Notice> noticeList = noticeService.getNotices();
+        request.setAttribute("notices", noticeList);
+        return "admin/noticeInfo";
+    }
+
+    @RequestMapping("/addNotice")
+    public String addNotice(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole() != 0) {
+            return "redirect:/";
+        }
+        return "admin/addNotice";
+    }
+
+    @RequestMapping("/addNoticeAct")
+    public String addNoticeAct(HttpServletRequest request, String msg) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole() != 0) {
+            return "redirect:/";
+        }
+        Notice notice = noticeService.saveNotice(msg, user);
+        if (notice != null) {
+            return "redirect:/admin/noticeInfo";
+        }
+        request.setAttribute("action", "add notice");
+        return "fail";
     }
 }

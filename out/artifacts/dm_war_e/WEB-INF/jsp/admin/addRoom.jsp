@@ -11,7 +11,7 @@
 </head>
 <link href="/css/layout.css" rel="stylesheet">
 
-<body>
+<body background="/img/background.jpg">
 
 <a href="/admin/roomInfo">&lt;&lt; room info</a>
 

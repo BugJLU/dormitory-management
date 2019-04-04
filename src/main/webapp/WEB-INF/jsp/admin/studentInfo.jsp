@@ -12,11 +12,39 @@
 </head>
 <link href="/css/layout.css" rel="stylesheet">
 
-<body>
+<body background="/img/background.jpg">
 
 <a href="index">&lt;&lt; index</a>
 
 <h1>Student List：</h1>
+
+<form action="/admin/studentSearch">
+    <table>
+        <tr>
+            <td>
+                Search by
+            </td>
+            <td>
+                <select name="choice" id="choice">
+                    <option value="0" selected>name</option>
+                    <option value="1">phone</option>
+                    <option value="2">student id</option>
+                    <%--<option value="3"></option>--%>
+                </select>
+            </td>
+            <td>
+                with value
+            </td>
+            <td>
+                <input type="text" name="value" id="value">
+            </td>
+            <td>
+                <input type="submit" value="Search">
+            </td>
+        </tr>
+    </table>
+</form>
+
 <table>
     <%
         List<StudentInfo> users = (List<StudentInfo>) request.getAttribute("users");

@@ -6,7 +6,7 @@
 </head>
 <link href="/css/layout.css" rel="stylesheet">
 
-<body>
+<body background="/img/background.jpg">
 <a href="/admin/adminInfo">&lt;&lt; admin manage</a>
 
 <h1>Add admin:</h1>

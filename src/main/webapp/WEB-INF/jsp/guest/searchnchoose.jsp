@@ -13,7 +13,7 @@
 </head>
 <link href="/css/layout.css" rel="stylesheet">
 
-<body>
+<body background="/img/background.jpg">
 
 <a href="index">&lt;&lt; guest index</a>
 

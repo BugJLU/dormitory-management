@@ -10,7 +10,7 @@
 <head>
     <title>Success</title>
 </head>
-<body>
+<body background="/img/background.jpg">
     <h1>${action} success!</h1>
     <a href="/index">Click to return to index.</a>
 </body>

@@ -9,5 +9,12 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<StudentInfo, Integer> {
     StudentInfo findByBase_Id(Integer baseid);
+
     List<StudentInfo> findAll();
+
+    List<StudentInfo> findByStudentIdLike(String sid);
+
+    List<StudentInfo> findByBase_NameLike(String name);
+
+    List<StudentInfo> findByBase_PhoneLike(String phone);
 }

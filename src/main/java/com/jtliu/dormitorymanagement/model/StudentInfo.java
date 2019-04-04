@@ -13,6 +13,7 @@ public class StudentInfo {
     @OneToOne
     User base;
     Integer gender;
+    @Column(unique = true)
     String studentId;
     @ManyToOne
     Room room;

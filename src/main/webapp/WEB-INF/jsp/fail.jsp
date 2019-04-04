@@ -10,7 +10,7 @@
 <head>
     <title>Fail</title>
 </head>
-<body>
+<body background="/img/background.jpg">
     <h1>${action} fail.</h1>
     <% if (request.getAttribute("reason") != null) { %>
         <p>reason: ${reason}</p>
